@@ -3,8 +3,10 @@ var jws = require('jws')
 var fs = require('fs');
  
 var options = {
-  key: fs.readFileSync('../server.key'),
-  cert: fs.readFileSync('../server.crt')
+    //key: fs.readFileSync('HighTrustOAuth2.key'),
+    //cert: fs.readFileSync('HighTrust.pem'),
+    key: fs.readFileSync('server.key'),
+    cert: fs.readFileSync('server.crt')
 };
  
 function base64urlEscape(str) {
@@ -13,13 +15,24 @@ function base64urlEscape(str) {
 function base64urlEncode(str) {
   return new Buffer(str).toString('base64');
 }
- 
-var sharepointhostname = process.argv[2]
-var clientid = "927e7578-6a96-4120-be36-495a5bbb989b"
-var realm = "5df7ebc5-9401-43fe-93e2-86a07f62c2b2" // equals to SharePoint Farm ID
-var issuerid = '2a80398d-800e-44b1-ac67-e34b1207114f' + "@" + realm
-var audience = '00000003-0000-0ff1-ce00-000000000000/' + sharepointhostname + '@' + realm
-var x5t = "+NgPPAV6+Nm+sqGz/WHYxq1Mp8E" // ohne "=" am Ende
+
+var siteUrl = 'https://spwzb27rov2c3sm.eastus2.cloudapp.azure.com';
+var sharepointhostname = url.parse(siteUrl).hostname;
+var clientid = 'b66f7e77-de3e-45d2-ba4c-b1b6405ec214';
+var realm = 'ddd67120-9259-451c-ad8f-b8cc3b28fac3' // equals to SharePoint Farm ID
+var issuerid = '9e9e46c4-6329-4990-a0b8-13b87b3ba56a'+ "@" + realm;
+var audience = '00000003-0000-0ff1-ce00-000000000000/' + sharepointhostname + '@' + realm;
+var x5t = 'QOCIyWwlxy8bM40Og6yzuj9vYkU';  //shaThumbprint: 'QOCIyWwlxy8bM40Og6yzuj9vYkU'
+var keyFilePath = 'HighTrustOAuth2.key';
+
+
+
+// var sharepointhostname = process.argv[2]
+// var clientid = "927e7578-6a96-4120-be36-495a5bbb989b"
+// var realm = "5df7ebc5-9401-43fe-93e2-86a07f62c2b2" // equals to SharePoint Farm ID
+// var issuerid = '2a80398d-800e-44b1-ac67-e34b1207114f' + "@" + realm
+// var audience = '00000003-0000-0ff1-ce00-000000000000/' + sharepointhostname + '@' + realm
+// var x5t = "+NgPPAV6+Nm+sqGz/WHYxq1Mp8E" // ohne "=" am Ende
 var nameid = "s-1-5-21-1482654976-146172710-446466059-3816" // SID des Anfragenden Benutzers
 var nii = "urn:office:idp:activedirectory"
  
